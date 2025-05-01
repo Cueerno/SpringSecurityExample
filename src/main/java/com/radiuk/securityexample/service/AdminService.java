@@ -10,5 +10,5 @@ public interface AdminService {
 
     void makeAdmin(Long id);
 
-    void deleteById(Long id);
+    void deleteUser(Long id);
 }

@@ -29,8 +29,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        userRepository.deleteById(id);
+    @Transactional
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+        userRepository.deleteById(user.getId());
     }
 }
 

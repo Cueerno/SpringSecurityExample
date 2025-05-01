@@ -29,7 +29,7 @@ public class AdminController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        adminService.deleteById(id);
+        adminService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.OK).body("User Deleted");
     }
 }
