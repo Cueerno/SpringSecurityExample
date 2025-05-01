@@ -7,8 +7,11 @@ import com.radiuk.securityexample.exception.UserNotFoundException;
 import com.radiuk.securityexample.model.Role;
 import com.radiuk.securityexample.model.User;
 import com.radiuk.securityexample.repository.UserRepository;
+import com.radiuk.securityexample.security.UserDetailsImpl;
 import com.radiuk.securityexample.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,5 +77,11 @@ public class UserServiceImpl implements UserService {
     public void delete(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException("User not found"));
         userRepository.deleteByUsername(user.getUsername());
+    }
+
+    @Override
+    public UserDetailsImpl getUserDetails() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (UserDetailsImpl) authentication.getPrincipal();
     }
 }

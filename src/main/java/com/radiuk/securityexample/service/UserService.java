@@ -2,6 +2,7 @@ package com.radiuk.securityexample.service;
 
 import com.radiuk.securityexample.dto.UserRegistrationDTO;
 import com.radiuk.securityexample.model.User;
+import com.radiuk.securityexample.security.UserDetailsImpl;
 
 public interface UserService {
 
@@ -12,4 +13,6 @@ public interface UserService {
     void update(UserRegistrationDTO userRegistrationDTO);
 
     void delete(String username);
+
+    UserDetailsImpl getUserDetails();
 }
