@@ -7,6 +7,7 @@ import com.radiuk.securityexample.repository.UserRepository;
 import com.radiuk.securityexample.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,11 +18,13 @@ public class AdminServiceImpl implements AdminService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> getUsers() {
         return userRepository.findAll();
     }
 
     @Override
+    @Transactional
     public void makeAdmin(Long id) {
         User userToUpdated = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
         userToUpdated.setRole(Role.ROLE_ADMIN);

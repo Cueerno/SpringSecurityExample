@@ -24,11 +24,13 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     @Override
+    @Transactional
     public void register(UserRegistrationDTO userRegistrationDTO) {
         User user = UserMapperConfig.INSTANCE.UserRegistrationDTOToUser(userRegistrationDTO);
 
