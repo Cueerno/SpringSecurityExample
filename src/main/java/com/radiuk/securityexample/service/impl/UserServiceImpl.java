@@ -10,6 +10,9 @@ import com.radiuk.securityexample.repository.UserRepository;
 import com.radiuk.securityexample.security.UserDetailsImpl;
 import com.radiuk.securityexample.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,9 +30,15 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<User> getAllUsers(Integer pageNo, Integer pageSize) {
+        if (pageNo == null || pageSize == null) {
+            return userRepository.findAll();
+        }
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<User> users = userRepository.findAll(pageable);
+        return users.getContent();
     }
+
 
     @Override
     @Transactional(readOnly = true)

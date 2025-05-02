@@ -39,7 +39,7 @@ public class AdminServiceTests {
 
         when(userRepository.findAll()).thenReturn(users);
 
-        List<User> result = userService.getAllUsers();
+        List<User> result = userService.getAllUsers(0, 2);
 
         assertFalse(result.isEmpty());
         assertEquals(2, result.size());

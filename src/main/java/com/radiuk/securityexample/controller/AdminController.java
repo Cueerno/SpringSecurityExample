@@ -19,8 +19,10 @@ public class AdminController {
     private final UserService userService;
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<List<User>> getUsers(
+            @RequestParam(value = "pageNo", required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        return ResponseEntity.ok(userService.getAllUsers(pageNo, pageSize));
     }
 
     @PostMapping("/make_admin/{id}")

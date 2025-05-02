@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserService {
 
-    List<User> getAllUsers();
+    List<User> getAllUsers(Integer pageNo, Integer pageSize);
 
     User findById(Long id);
 
