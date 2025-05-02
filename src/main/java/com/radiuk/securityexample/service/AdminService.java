@@ -6,9 +6,5 @@ import java.util.List;
 
 public interface AdminService {
 
-    List<User> getUsers();
-
     void makeAdmin(Long id);
-
-    void deleteUser(Long id);
 }

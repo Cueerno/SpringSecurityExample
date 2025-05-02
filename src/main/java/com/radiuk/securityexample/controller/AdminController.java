@@ -2,6 +2,7 @@ package com.radiuk.securityexample.controller;
 
 import com.radiuk.securityexample.model.User;
 import com.radiuk.securityexample.service.AdminService;
+import com.radiuk.securityexample.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,11 @@ import java.util.List;
 public class AdminController {
 
     private final AdminService adminService;
+    private final UserService userService;
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
-        return ResponseEntity.ok(adminService.getUsers());
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @PostMapping("/make_admin/{id}")
@@ -29,7 +31,7 @@ public class AdminController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        adminService.deleteUser(id);
+        userService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("User Deleted");
     }
 }
