@@ -16,7 +16,9 @@ public interface UserService {
 
     void update(UserRegistrationDTO userRegistrationDTO);
 
-    void delete(String username);
+    void deleteByUsername(String username);
+
+    void deleteById(Long id);
 
     UserDetailsImpl getUserDetails();
 }
