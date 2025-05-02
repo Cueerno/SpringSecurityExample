@@ -4,6 +4,7 @@ import com.radiuk.securityexample.model.Role;
 import com.radiuk.securityexample.model.User;
 import com.radiuk.securityexample.repository.UserRepository;
 import com.radiuk.securityexample.service.impl.AdminServiceImpl;
+import com.radiuk.securityexample.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,6 +27,9 @@ public class AdminServiceTests {
     @InjectMocks
     private AdminServiceImpl adminService;
 
+    @InjectMocks
+    private UserServiceImpl userService;
+
     @Test
     public void AdminService_GetUsers_Success() {
         List<User> users = List.of(
@@ -35,7 +39,7 @@ public class AdminServiceTests {
 
         when(userRepository.findAll()).thenReturn(users);
 
-        List<User> result = adminService.getUsers();
+        List<User> result = userService.getAllUsers();
 
         assertFalse(result.isEmpty());
         assertEquals(2, result.size());
@@ -71,7 +75,7 @@ public class AdminServiceTests {
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
 
-        adminService.deleteUser(userId);
+        userService.deleteById(userId);
 
         verify(userRepository, times(1)).deleteById(userId);
     }

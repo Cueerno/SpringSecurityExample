@@ -132,6 +132,6 @@ public class AuthControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string("User Deleted"));
 
-        verify(userService).delete("username");
+        verify(userService).deleteByUsername("username");
     }
 }

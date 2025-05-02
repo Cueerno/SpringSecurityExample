@@ -104,7 +104,7 @@ public class UserServiceTests {
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(existingUser));
 
-        userService.delete(username);
+        userService.deleteByUsername(username);
 
         verify(userRepository, times(1)).deleteByUsername(username);
     }
@@ -115,7 +115,7 @@ public class UserServiceTests {
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
-        assertThrows(UserNotFoundException.class, () -> userService.delete(username));
+        assertThrows(UserNotFoundException.class, () -> userService.deleteByUsername(username));
 
         verify(userRepository, never()).deleteByUsername(anyString());
     }
