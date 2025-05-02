@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -57,9 +56,7 @@ public class AuthController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<?> delete() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        userService.deleteByUsername(userDetails.getUsername());
+        userService.deleteByUsername(userService.getUserDetails().getUsername());
         return ResponseEntity.status(HttpStatus.OK).body("User Deleted");
     }
 }
