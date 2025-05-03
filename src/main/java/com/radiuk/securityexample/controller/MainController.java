@@ -18,7 +18,7 @@ public class MainController {
 
     @GetMapping("/data")
     public ResponseEntity<User> getAllData() {
-        return ResponseEntity.ok(userService.findById(userService.getUserDetails().getUser().getId()));
+        return ResponseEntity.ok(userService.getUserDetails().getUser());
     }
 
     @GetMapping("/username")
