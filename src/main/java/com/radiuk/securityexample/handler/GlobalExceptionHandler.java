@@ -11,9 +11,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
+import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -21,40 +20,46 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException exception) {
-
-        Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("error", "Lack of access");
-        errorResponse.put("message", exception.getMessage());
-        errorResponse.put("status", HttpStatus.FORBIDDEN.value());
-
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                new ExceptionResponseStructure(
+                        OffsetDateTime.now(),
+                        HttpStatus.UNAUTHORIZED.value(),
+                        "Lack of access",
+                        exception.getMessage()
+                ));
     }
 
     @ExceptionHandler(UserNotCreatedException.class)
     public ResponseEntity<?> handleUserNotCreatedException(UserNotCreatedException exception) {
-        Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("error", "User not created");
-        errorResponse.put("message", exception.getMessage());
-        errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ExceptionResponseStructure(
+                        OffsetDateTime.now(),
+                        HttpStatus.BAD_REQUEST.value(),
+                        "User not created",
+                        exception.getMessage()
+                ));
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException exception) {
-        Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("error", "User not found");
-        errorResponse.put("message", exception.getMessage());
-        errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ExceptionResponseStructure(
+                        OffsetDateTime.now(),
+                        HttpStatus.NOT_FOUND.value(),
+                        "User not found",
+                        exception.getMessage()
+                ));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException exception) {
-        Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("error", "Incorrect username or password");
-        errorResponse.put("message", exception.getMessage());
-        errorResponse.put("status", HttpStatus.UNAUTHORIZED.value());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                new ExceptionResponseStructure(
+                        OffsetDateTime.now(),
+                        HttpStatus.UNAUTHORIZED.value(),
+                        "Incorrect username or password",
+                        exception.getMessage()
+                ));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -63,10 +68,13 @@ public class GlobalExceptionHandler {
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
-        Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("error", "Incorrect fields");
-        errorResponse.put("message", defaultMessage);
-        errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ExceptionResponseStructure(
+                        OffsetDateTime.now(),
+                        HttpStatus.BAD_REQUEST.value(),
+                        "Incorrect data",
+                        defaultMessage
+                ));
     }
 }
