@@ -12,9 +12,9 @@ import com.radiuk.securityexample.security.JwtCore;
 import com.radiuk.securityexample.security.UserDetailsImpl;
 import com.radiuk.securityexample.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -39,15 +39,23 @@ public class UserServiceImpl implements UserService {
     private final UserDetailsService userDetailsService;
 
     @Override
-    public List<User> getAllUsers(Integer pageNo, Integer pageSize) {
+    public List<User> getAllUsers(Integer pageNo, Integer pageSize, String sort) {
+        Sort parseSort = (sort == null || sort.trim().isEmpty()) ? null : parseSort(sort);
+
         if (pageNo == null || pageSize == null) {
-            return userRepository.findAll();
+            return (parseSort == null) ? userRepository.findAll() : userRepository.findAll(parseSort);
         }
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<User> users = userRepository.findAll(pageable);
-        return users.getContent();
+
+        Pageable pageable = (parseSort == null) ? PageRequest.of(pageNo, pageSize) : PageRequest.of(pageNo, pageSize, parseSort);
+        return userRepository.findAll(pageable).getContent();
     }
 
+    private Sort parseSort(String sort) {
+        String[] sortParams = sort.split(",");
+        return sortParams.length == 2
+                ? Sort.by(Sort.Direction.fromString(sortParams[1]), sortParams[0])
+                : Sort.by(Sort.Direction.ASC, sortParams[0]);
+    }
 
     @Override
     @Transactional(readOnly = true)

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface UserService {
 
-    List<User> getAllUsers(Integer pageNo, Integer pageSize);
+    List<User> getAllUsers(Integer pageNo, Integer pageSize, String sort);
 
     User findById(Long id);
 
