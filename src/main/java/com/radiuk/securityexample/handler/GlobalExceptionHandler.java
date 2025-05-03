@@ -23,8 +23,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException exception) {
 
         Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("error", "Forbidden");
-        errorResponse.put("pisss", "pisss");
+        errorResponse.put("error", "Lack of access");
         errorResponse.put("message", exception.getMessage());
         errorResponse.put("status", HttpStatus.FORBIDDEN.value());
 
@@ -54,8 +53,8 @@ public class GlobalExceptionHandler {
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("error", "Incorrect username or password");
         errorResponse.put("message", exception.getMessage());
-        errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        errorResponse.put("status", HttpStatus.UNAUTHORIZED.value());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
