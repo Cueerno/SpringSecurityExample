@@ -2,17 +2,12 @@ package com.radiuk.securityexample.controller;
 
 import com.radiuk.securityexample.dto.UserAuthDTO;
 import com.radiuk.securityexample.dto.UserRegistrationDTO;
-import com.radiuk.securityexample.security.JwtCore;
 import com.radiuk.securityexample.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -22,10 +17,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final UserDetailsService userDetailsService;
     private final UserService userService;
-    private final JwtCore jwtCore;
-    private final AuthenticationManager authenticationManager;
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody UserRegistrationDTO userRegistrationDTO) {
@@ -35,11 +27,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserAuthDTO userAuthDTO) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userAuthDTO.getUsername(), userAuthDTO.getPassword());
-        authenticationManager.authenticate(authenticationToken);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userAuthDTO.getUsername());
-        String token = jwtCore.generateToken(userDetails);
-        return new ResponseEntity<>(Map.of("token:", token), HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("token:", userService.getToken(userAuthDTO)), HttpStatus.OK);
     }
 
     @PostMapping("/logout")
