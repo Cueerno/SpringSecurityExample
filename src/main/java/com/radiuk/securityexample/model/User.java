@@ -3,6 +3,8 @@ package com.radiuk.securityexample.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -12,7 +14,10 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+@ToString
+public class User implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
