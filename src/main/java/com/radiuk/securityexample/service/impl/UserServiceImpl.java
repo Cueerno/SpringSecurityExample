@@ -39,6 +39,7 @@ public class UserServiceImpl implements UserService {
     private final UserDetailsService userDetailsService;
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> getAllUsers(Integer pageNo, Integer pageSize, String sort) {
         Sort parseSort = (sort == null || sort.trim().isEmpty()) ? null : parseSort(sort);
 
