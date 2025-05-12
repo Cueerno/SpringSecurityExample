@@ -2,7 +2,6 @@ package com.radiuk.securityexample.service;
 
 import com.radiuk.securityexample.dto.UserRegistrationDTO;
 import com.radiuk.securityexample.exception.UserNotFoundException;
-import com.radiuk.securityexample.model.Role;
 import com.radiuk.securityexample.model.User;
 import com.radiuk.securityexample.repository.UserRepository;
 import com.radiuk.securityexample.service.impl.UserServiceImpl;
@@ -77,7 +76,7 @@ public class UserServiceTests {
                 .email("oldemail@email.com")
                 .phone("+123(45)6789012")
                 .password("hashedPassword")
-                .role(Role.ROLE_USER)
+                .role(User.Role.ROLE_USER)
                 .createdAt(OffsetDateTime.now().minusDays(30))
                 .updatedAt(OffsetDateTime.now().minusDays(5))
                 .build();

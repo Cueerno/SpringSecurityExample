@@ -1,7 +1,6 @@
 package com.radiuk.securityexample.service.impl;
 
 import com.radiuk.securityexample.exception.UserNotFoundException;
-import com.radiuk.securityexample.model.Role;
 import com.radiuk.securityexample.model.User;
 import com.radiuk.securityexample.repository.UserRepository;
 import com.radiuk.securityexample.service.AdminService;
@@ -19,7 +18,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public void makeAdmin(Long id) {
         User userToUpdated = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
-        userToUpdated.setRole(Role.ROLE_ADMIN);
+        userToUpdated.setRole(User.Role.ROLE_ADMIN);
         userRepository.save(userToUpdated);
     }
 }

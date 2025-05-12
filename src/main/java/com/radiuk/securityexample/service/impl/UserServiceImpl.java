@@ -5,7 +5,6 @@ import com.radiuk.securityexample.dto.UserAuthDTO;
 import com.radiuk.securityexample.dto.UserRegistrationDTO;
 import com.radiuk.securityexample.exception.UserNotCreatedException;
 import com.radiuk.securityexample.exception.UserNotFoundException;
-import com.radiuk.securityexample.model.Role;
 import com.radiuk.securityexample.model.User;
 import com.radiuk.securityexample.repository.UserRepository;
 import com.radiuk.securityexample.security.JwtCore;
@@ -82,7 +81,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.ROLE_USER);
+        user.setRole(User.Role.ROLE_USER);
         user.setCreatedAt(OffsetDateTime.now());
         user.setUpdatedAt(OffsetDateTime.now());
 

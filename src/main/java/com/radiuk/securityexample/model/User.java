@@ -42,4 +42,9 @@ public class User implements Serializable {
     private OffsetDateTime createdAt;
 
     private OffsetDateTime updatedAt;
+
+    public enum Role {
+        ROLE_ADMIN,
+        ROLE_USER
+    }
 }

@@ -1,6 +1,5 @@
 package com.radiuk.securityexample.service;
 
-import com.radiuk.securityexample.model.Role;
 import com.radiuk.securityexample.model.User;
 import com.radiuk.securityexample.repository.UserRepository;
 import com.radiuk.securityexample.service.impl.AdminServiceImpl;
@@ -56,14 +55,14 @@ public class AdminServiceTests {
         User existingUser = User.builder()
                 .id(userId)
                 .username("username")
-                .role(Role.ROLE_USER)
+                .role(User.Role.ROLE_USER)
                 .build();
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
 
         adminService.makeAdmin(userId);
 
-        assertEquals(Role.ROLE_ADMIN, existingUser.getRole());
+        assertEquals(User.Role.ROLE_ADMIN, existingUser.getRole());
 
         verify(userRepository, times(1)).save(existingUser);
     }
