@@ -21,6 +21,19 @@ services:
     volumes:
       - redis_data:/data
 
+  app:
+    build: .
+    container_name: spring_security_example_app_container
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_container:5432/security_example
+      SPRING_DATASOURCE_USERNAME: cuerno
+      SPRING_DATASOURCE_PASSWORD: cuerno
+
 volumes:
   postgres_data:
   redis_data:
